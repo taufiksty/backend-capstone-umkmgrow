@@ -1,5 +1,5 @@
 const config = require('../config');
-const ClientError = require('../errors/client-error');
+const { ClientError } = require('../errors');
 
 const errorHandler = (error, req, res, next) => {
 	if (error instanceof ClientError) {
