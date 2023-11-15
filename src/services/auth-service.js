@@ -7,6 +7,7 @@ const { findByEmail, addUser } = require('../repositories/mysql/users');
 const {
 	addToken,
 	destroyToken,
+	findToken,
 } = require('../repositories/mysql/authentications');
 const { convertToLocalDatetime } = require('../utils/moment-timezone');
 const { TokenBlacklist, TokenManager } = require('../utils/token');
@@ -73,4 +74,21 @@ const signUp = async ({ fullname, email, password }) => {
 	return convertToLocalDatetime(addedUser);
 };
 
-module.exports = { signIn, signUp, signOut };
+const verifyRefreshToken = async (refreshToken) => {
+	const token = await findToken(refreshToken);
+
+	if (!token) {
+		throw new AuthenticationError(
+			'Your refresh token was outdated. Please sign-in again.',
+		);
+	}
+
+	const id = token.userId;
+	console.log(token);
+
+	const accessToken = TokenManager.generateAccessToken({ id });
+
+	return { accessToken, refreshToken };
+};
+
+module.exports = { signIn, signUp, signOut, verifyRefreshToken };
