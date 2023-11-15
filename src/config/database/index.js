@@ -1,33 +1,27 @@
-const dotenv = require('dotenv');
+const { Sequelize } = require('sequelize');
+const config = require('..');
+const configDB = require('./config');
 
-dotenv.config();
+let sequelize;
 
-module.exports = {
-	development: {
-		username: process.env.DB_DEV_USERNAME,
-		password: null,
-		database: process.env.DB_DEV_DATABASE,
-		host: process.env.DB_DEV_HOST,
-		dialect: process.env.DB_DEV_DIALECT,
-		logging: false,
-	},
-	test: {
-		username: process.env.DB_TEST_USERNAME,
-		password: process.env.DB_TEST_PASSWORD,
-		database: process.env.DB_TEST_DATABASE,
-		host: process.env.DB_TEST_HOST,
-		dialect: process.env.DB_TEST_DIALECT,
-	},
-	production: {
-		username: process.env.DB_PROD_USERNAME,
-		password: process.env.DB_PROD_PASSWORD,
-		database: process.env.DB_PROD_DATABASE,
-		host: process.env.DB_PROD_HOST,
-		dialect: process.env.DB_PROD_DIALECT,
-		dialectOptions: {
-			ssl: {
-				rejectUnauthorized: true,
-			},
-		},
-	},
-};
+const ENV = config.app.env;
+
+if (ENV === 'production') {
+	sequelize = new Sequelize({
+		username: configDB.production.username,
+		password: configDB.production.password,
+		database: configDB.production.database,
+		host: configDB.production.host,
+		dialect: configDB.production.dialect,
+	});
+} else {
+	sequelize = new Sequelize({
+		username: configDB.development.username,
+		password: configDB.development.password,
+		database: configDB.development.database,
+		host: configDB.development.host,
+		dialect: configDB.development.dialect,
+	});
+}
+
+module.exports = sequelize;
