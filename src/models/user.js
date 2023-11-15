@@ -43,25 +43,29 @@ User.init(
 			type: DataTypes.STRING,
 			allowNull: true,
 		},
-		company_name: {
+		companyName: {
 			type: DataTypes.STRING,
 			allowNull: true,
+			field: 'company_name',
 		},
-		business_fields: {
+		businessFields: {
 			type: DataTypes.STRING,
 			allowNull: true,
+			field: 'business_fields',
 		},
-		skills_want: {
+		skillsWant: {
 			type: DataTypes.STRING,
 			allowNull: true,
+			field: 'skills_want',
 		},
 		role: {
 			type: DataTypes.ENUM('student', 'instructor', 'admin'),
 			defaultValue: 'student',
 		},
-		image_profile: {
+		imageProfile: {
 			type: DataTypes.STRING,
 			allowNull: true,
+			field: 'image_profile',
 		},
 		createdAt: {
 			type: DataTypes.DATE,
