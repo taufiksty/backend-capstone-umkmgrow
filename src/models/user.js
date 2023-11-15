@@ -4,7 +4,10 @@ const sequelize = require('../config/database');
 
 class User extends Model {
 	static associate(models) {
-		// associate
+		User.hasOne(models.Authentication, {
+			foreignKey: 'user_id',
+			onDelete: 'CASCADE',
+		});
 	}
 }
 User.init(
