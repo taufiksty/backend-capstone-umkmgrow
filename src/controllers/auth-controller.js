@@ -1,5 +1,10 @@
 const { asyncWrapper } = require('../middlewares');
-const { signIn, signUp, signOut } = require('../services/auth-service');
+const {
+	signIn,
+	signUp,
+	signOut,
+	verifyRefreshToken,
+} = require('../services/auth-service');
 
 const AuthenticationValidator = require('../validators/authentication');
 const UserValidator = require('../validators/user');
@@ -41,8 +46,21 @@ const postSignupAuthenticationHandler = asyncWrapper(async (req, res) => {
 	});
 });
 
+const putRefreshTokenHandler = asyncWrapper(async (req, res) => {
+	const { refreshToken: token } = req.body;
+
+	const { accessToken, refreshToken } = await verifyRefreshToken(token);
+
+	res.json({
+		success: true,
+		message: 'Token is refreshed',
+		data: { accessToken, refreshToken, expiresIn: 3600 },
+	});
+});
+
 module.exports = {
 	deleteSignoutAuthenticationHandler,
 	postSigninAuthenticationHandler,
 	postSignupAuthenticationHandler,
+	putRefreshTokenHandler,
 };
