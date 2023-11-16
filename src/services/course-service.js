@@ -1,8 +1,15 @@
 const {
 	getAllCourses,
 	findCoursesByFilter,
+	getCourseById,
 } = require('../repositories/mysql/courses');
 const { convertToLocalDatetime } = require('../utils/moment-timezone');
+
+const getCourse = async (id) => {
+	const course = await getCourseById(id);
+
+	return convertToLocalDatetime(course);
+};
 
 const getCourses = async () => {
 	const courses = await getAllCourses();
@@ -16,4 +23,4 @@ const getCoursesByFilter = async (filter) => {
 	return courses.map(convertToLocalDatetime);
 };
 
-module.exports = { getCourses, getCoursesByFilter };
+module.exports = { getCourse, getCourses, getCoursesByFilter };
