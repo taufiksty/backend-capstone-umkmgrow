@@ -19,6 +19,13 @@ const convertToLocalDatetime = (object) => {
 			.format('YYYY-MM-DD HH:mm:ss');
 	}
 
+	if (currObject.enrollDate) {
+		currObject.enrollDate = moment
+			.utc(currObject.enrollDate)
+			.tz(timezone)
+			.format('YYY-MM-DD HH:mm:ss');
+	}
+
 	return currObject;
 };
 

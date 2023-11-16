@@ -4,12 +4,17 @@ const sequelize = require('../config/database');
 
 class User extends Model {
 	static associate(models) {
-		User.hasOne(models.Authentication, {
+		this.hasOne(models.Authentication, {
 			foreignKey: 'user_id',
 			onDelete: 'CASCADE',
 		});
-		User.hasMany(models.Course, {
+		this.hasMany(models.Course, {
 			foreignKey: 'instructor_id',
+			onDelete: 'CASCADE',
+		});
+		this.hasMany(models.Enrollment, {
+			foreignKey: 'user_id',
+			as: 'course',
 			onDelete: 'CASCADE',
 		});
 	}
