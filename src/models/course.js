@@ -4,9 +4,13 @@ const sequelize = require('../config/database');
 
 class Course extends Model {
 	static associate(models) {
-		Course.belongsToMany(models.User, {
+		this.belongsTo(models.User, {
 			foreignKey: 'instructor_id',
 			as: 'instructor',
+		});
+		this.belongsToMany(models.Enrollment, {
+			foreignKey: 'course_id',
+			as: 'course',
 		});
 	}
 }
