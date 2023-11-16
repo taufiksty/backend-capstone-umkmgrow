@@ -2,7 +2,19 @@ const { asyncWrapper } = require('../middlewares');
 const {
 	getCourses,
 	getCoursesByFilter,
+	getCourse,
 } = require('../services/course-service');
+
+const getCourseByIdHandler = asyncWrapper(async (req, res) => {
+	const id = req.params.id;
+
+	const course = await getCourse(id);
+
+	res.json({
+		success: true,
+		data: { course },
+	});
+});
 
 const getCoursesHandler = asyncWrapper(async (req, res) => {
 	const isQueryHasValue = Object.keys(req.query).length;
@@ -21,4 +33,4 @@ const getCoursesHandler = asyncWrapper(async (req, res) => {
 	});
 });
 
-module.exports = { getCoursesHandler };
+module.exports = { getCourseByIdHandler, getCoursesHandler };
