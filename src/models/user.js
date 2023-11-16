@@ -8,6 +8,10 @@ class User extends Model {
 			foreignKey: 'user_id',
 			onDelete: 'CASCADE',
 		});
+		User.hasMany(models.Course, {
+			foreignKey: 'instructor_id',
+			onDelete: 'CASCADE',
+		});
 	}
 }
 User.init(
