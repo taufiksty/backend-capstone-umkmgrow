@@ -23,4 +23,8 @@ const getCoursesByFilter = async (filter) => {
 	return courses.map(convertToLocalDatetime);
 };
 
-module.exports = { getCourse, getCourses, getCoursesByFilter };
+module.exports = {
+	getCourse,
+	getCourses,
+	getCoursesByFilter,
+};
