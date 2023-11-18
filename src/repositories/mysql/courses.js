@@ -28,7 +28,7 @@ const getAllCourses = async () => {
 };
 
 const getCourseById = async (id) => {
-	return await Course.findOne({ where: { id } });
+	return await Course.findByPk(id);
 };
 
 module.exports = { findCoursesByFilter, getAllCourses, getCourseById };

@@ -21,6 +21,7 @@ if (ENV === 'production') {
 		database: configDB.development.database,
 		host: configDB.development.host,
 		dialect: configDB.development.dialect,
+		logging: false,
 	});
 }
 
