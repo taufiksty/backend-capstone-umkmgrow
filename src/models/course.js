@@ -12,10 +12,12 @@ class Course extends Model {
 			foreignKey: 'course_id',
 			as: 'course',
 		});
-		console.log('module associated with course');
 		this.hasMany(models.CourseModule, {
 			foreignKey: 'courseId',
 			sourceKey: 'id',
+		});
+		this.hasOne(models.Exam, {
+			foreignKey: 'course_id',
 		});
 	}
 }
