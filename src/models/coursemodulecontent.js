@@ -4,7 +4,9 @@ const sequelize = require('../config/database');
 
 class CourseModuleContent extends Model {
 	static associate(models) {
-		// define association here
+		this.belongsTo(models.CourseModule, {
+			foreignKey: 'module_id',
+		});
 	}
 }
 CourseModuleContent.init(

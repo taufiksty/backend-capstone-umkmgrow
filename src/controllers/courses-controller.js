@@ -5,6 +5,7 @@ const {
 	getCoursesByFilter,
 	getCourse,
 } = require('../services/course-service');
+const { getExamQuestionsByCourseId } = require('../services/exam-service');
 const { getCourseModulesByCourseId } = require('../services/module-service');
 
 const getCourseByIdHandler = asyncWrapper(async (req, res) => {
@@ -15,6 +16,17 @@ const getCourseByIdHandler = asyncWrapper(async (req, res) => {
 	res.json({
 		success: true,
 		data: { course },
+	});
+});
+
+const getCourseExamsHandler = asyncWrapper(async (req, res) => {
+	const { id } = req.params;
+
+	const { examId, questions } = await getExamQuestionsByCourseId(id);
+
+	res.json({
+		success: true,
+		data: { course: { id, exams: { examId, questions } } },
 	});
 });
 
@@ -59,6 +71,7 @@ const getCoursesHandler = asyncWrapper(async (req, res) => {
 
 module.exports = {
 	getCourseByIdHandler,
+	getCourseExamsHandler,
 	getCourseModulesHandler,
 	getCoursesHandler,
 };

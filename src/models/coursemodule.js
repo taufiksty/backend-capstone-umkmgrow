@@ -8,6 +8,9 @@ class CourseModule extends Model {
 			foreignKey: 'courseId',
 			targetKey: 'id',
 		});
+		this.hasMany(models.CourseModuleContent, {
+			foreignKey: 'module_id',
+		});
 	}
 }
 CourseModule.init(
