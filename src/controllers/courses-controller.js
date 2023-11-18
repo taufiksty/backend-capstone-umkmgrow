@@ -1,4 +1,5 @@
 const { asyncWrapper } = require('../middlewares');
+const { getContentsByModuleId } = require('../services/content-service');
 const {
 	getCourses,
 	getCoursesByFilter,
@@ -20,14 +21,18 @@ const getCourseByIdHandler = asyncWrapper(async (req, res) => {
 const getCourseModulesHandler = asyncWrapper(async (req, res) => {
 	const { id } = req.params;
 	const { content } = req.query;
+	let modules = await getCourseModulesByCourseId(id);
 
-	const modules = await getCourseModulesByCourseId(id);
+	if (content) {
+		modules = await Promise.all(
+			modules.map(async (module) => {
+				const retrieveContents = await getContentsByModuleId(module.id);
+				module.contents = retrieveContents;
 
-	// if (content) {
-	//     modules.map((module) => {
-	//         // const contents = await ge
-	//     })
-	// }
+				return module;
+			}),
+		);
+	}
 
 	res.json({
 		success: true,
