@@ -5,4 +5,12 @@ const convertToSnakeCase = (string) => {
 		.toLowerCase();
 };
 
-module.exports = { convertToSnakeCase };
+const parse = (string) => {
+	return JSON.parse(string);
+};
+
+const stringify = (data) => {
+	return JSON.stringify(data);
+};
+
+module.exports = { convertToSnakeCase, parse, stringify };

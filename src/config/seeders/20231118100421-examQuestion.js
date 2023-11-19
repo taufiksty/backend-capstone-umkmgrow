@@ -56,7 +56,7 @@ module.exports = {
 					question:
 						'Mengapa penting bagi UMKM untuk memiliki strategi pemasaran melalui media sosial',
 					answers:
-						'{"a":"Hanya untuk mengikuti tren","b":"Karena semua pesaing melakukannya","c":"Untuk membangun dan berinteraksi dengan komunitas pelanggan","d":"Hanya untuk mendapatkan jumlah "like" yang banyak"}',
+						'{"a":"Hanya untuk mengikuti tren","b":"Karena semua pesaing melakukannya","c":"Untuk membangun dan berinteraksi dengan komunitas pelanggan","d":"Hanya untuk mendapatkan jumlah like yang banyak"}',
 					correct_answer: 'c',
 				},
 				{
@@ -199,7 +199,7 @@ module.exports = {
 					question:
 						'Mengapa strategi penempatan pasar penting dalam pengembangan merek UMKM',
 					answers:
-						'{"a":"Tidak penting, karena semua merek serupa","b":"Menentukan bagaimana merek bersaing di pasar","c":"Hanya untuk perusahaan besar","d":"Untuk mendapatkan lebih banyak "like" di media sosial"}',
+						'{"a":"Tidak penting, karena semua merek serupa","b":"Menentukan bagaimana merek bersaing di pasar","c":"Hanya untuk perusahaan besar","d":"Untuk mendapatkan lebih banyak like di media sosial"}',
 					correct_answer: 'b',
 				},
 				{
@@ -251,7 +251,7 @@ module.exports = {
 					question:
 						'Mengapa perlu memahami pasar dan persaingan untuk membangun merek yang sukses',
 					answers:
-						'"a":"Agar bisa mengikuti apa yang dilakukan pesaing","b":"Mengetahui tren terkini dalam pemasaran","c":"Memahami kebutuhan pelanggan dan bagaimana merek bersaing","d":"Tidak perlu, karena produk UMKM sudah bagus"}',
+						'{"a":"Agar bisa mengikuti apa yang dilakukan pesaing","b":"Mengetahui tren terkini dalam pemasaran","c":"Memahami kebutuhan pelanggan dan bagaimana merek bersaing","d":"Tidak perlu, karena produk UMKM sudah bagus"}',
 					correct_answer: 'c',
 				},
 				{

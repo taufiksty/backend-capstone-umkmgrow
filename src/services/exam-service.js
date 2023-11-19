@@ -13,12 +13,19 @@ const { findById } = require('../repositories/mysql/users');
 const { createCertification } = require('./certification-service');
 const { verifyEnrollStatusBeforeSubmitExam } = require('./enroll-service');
 const { convertToLocalDatetime } = require('../utils/moment-timezone');
+const { parse } = require('../utils/common');
 
 const getExamQuestionsByCourseId = async (courseId) => {
 	const examId = await getExamId(courseId);
 	const questions = await getQuestionsByExamId(examId);
 
-	return { examId, questions };
+	return {
+		examId,
+		questions: questions.map((q) => {
+			const quest = q.dataValues;
+			return { ...quest, answers: parse(quest.answers) };
+		}),
+	};
 };
 
 const submitExam = async (userId, courseId, score) => {

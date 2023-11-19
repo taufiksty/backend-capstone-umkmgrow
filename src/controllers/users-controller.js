@@ -11,7 +11,7 @@ const putUsersHandler = asyncWrapper(async (req, res) => {
 
 	res.json({
 		success: true,
-		data: { profileUpdated },
+		data: { user: profileUpdated },
 	});
 });
 
