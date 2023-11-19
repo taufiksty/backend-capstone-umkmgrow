@@ -26,6 +26,13 @@ const convertToLocalDatetime = (object) => {
 			.format('YYY-MM-DD HH:mm:ss');
 	}
 
+	if (currObject.certificateReceiptDate) {
+		currObject.certificateReceiptDate = moment
+			.utc(currObject.certificateReceiptDate)
+			.tz(timezone)
+			.format('YYY-MM-DD HH:mm:ss');
+	}
+
 	return currObject;
 };
 
