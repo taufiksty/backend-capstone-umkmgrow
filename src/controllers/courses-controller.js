@@ -5,7 +5,10 @@ const {
 	getCoursesByFilter,
 	getCourse,
 } = require('../services/course-service');
-const { getExamQuestionsByCourseId } = require('../services/exam-service');
+const {
+	getExamQuestionsByCourseId,
+	submitExam,
+} = require('../services/exam-service');
 const { getCourseModulesByCourseId } = require('../services/module-service');
 
 const getCourseByIdHandler = asyncWrapper(async (req, res) => {
@@ -69,9 +72,23 @@ const getCoursesHandler = asyncWrapper(async (req, res) => {
 	});
 });
 
+const postCourseExamSubmitHandler = asyncWrapper(async (req, res) => {
+	const { id } = req.params;
+	const userId = req.auth.id;
+	const { score } = req.body;
+
+	let certification = await submitExam(userId, id, score);
+
+	res.status(201).json({
+		success: true,
+		data: { courseId: id, certification },
+	});
+});
+
 module.exports = {
 	getCourseByIdHandler,
 	getCourseExamsHandler,
 	getCourseModulesHandler,
 	getCoursesHandler,
+	postCourseExamSubmitHandler,
 };

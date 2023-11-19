@@ -17,6 +17,9 @@ class User extends Model {
 			as: 'course',
 			onDelete: 'CASCADE',
 		});
+		this.hasMany(models.Certification, {
+			foreignKey: 'user_id',
+		});
 	}
 }
 User.init(

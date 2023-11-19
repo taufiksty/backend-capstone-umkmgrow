@@ -45,7 +45,7 @@ const purchaseEnrollment = async (id) => {
 	return convertToLocalDatetime(payment);
 };
 
-const verifyEnrollCourse = async (enrollStatus) => {
+const verifyEnrollCourse = (enrollStatus) => {
 	if (enrollStatus === 'onpayment') {
 		throw new InvariantError(
 			'You have enroll this course. Please check and make a payment.',
@@ -63,4 +63,24 @@ const verifyEnrollCourse = async (enrollStatus) => {
 	}
 };
 
-module.exports = { enrollCourse, purchaseEnrollment };
+const verifyEnrollStatusBeforeSubmitExam = (enrollStatus, score) => {
+	if (!enrollStatus) {
+		throw new InvariantError(
+			'You are not enroll this course. Why you submit an exam?',
+		);
+	} else if (enrollStatus === 'onpayment') {
+		throw new InvariantError(
+			'You are now on payment status of this course. Why you submit an exam?',
+		);
+	} else if (enrollStatus === 'completed' && score === 100) {
+		throw new InvariantError(
+			'You have completed this course with excellent score, congratulations! ',
+		);
+	}
+};
+
+module.exports = {
+	enrollCourse,
+	purchaseEnrollment,
+	verifyEnrollStatusBeforeSubmitExam,
+};
