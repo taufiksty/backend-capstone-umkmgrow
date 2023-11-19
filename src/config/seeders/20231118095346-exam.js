@@ -1,28 +1,12 @@
 'use strict';
-const { nanoid } = require('nanoid');
+
+const EXAMS = require('../data/exams');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
 		try {
-			await queryInterface.bulkInsert(
-				'exams',
-				[
-					{
-						id: `exam-${nanoid(16)}`,
-						course_id: 'course-rUbJU5kzAdyK9CM7',
-					},
-					{
-						id: `exam-${nanoid(16)}`,
-						course_id: 'course-oVIaqcJfQUPDi75-',
-					},
-					{
-						id: `exam-${nanoid(16)}`,
-						course_id: 'course-Mzyu0FwLrSeGSMcJ',
-					},
-				],
-				{},
-			);
+			await queryInterface.bulkInsert('exams', EXAMS, {});
 		} catch (error) {
 			console.log('error when inserting');
 		}
