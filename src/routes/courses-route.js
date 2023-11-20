@@ -5,6 +5,7 @@ const {
 	getCourseModulesHandler,
 	getCourseExamsHandler,
 	postCourseExamSubmitHandler,
+	getCourseExamHistoryHandler,
 } = require('../controllers/courses-controller');
 const { auth } = require('../middlewares');
 
@@ -15,5 +16,6 @@ router.route('/:id').get(getCourseByIdHandler);
 router.route('/:id/modules').get(auth, getCourseModulesHandler);
 router.route('/:id/exams').get(auth, getCourseExamsHandler);
 router.route('/:id/exams/submit').post(auth, postCourseExamSubmitHandler);
+router.route('/:id/exams/history').get(auth, getCourseExamHistoryHandler);
 
 module.exports = router;

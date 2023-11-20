@@ -10,10 +10,17 @@ const { getStatusEnrollment } = require('../repositories/mysql/enrollments');
 const { getQuestionsByExamId } = require('../repositories/mysql/examQuestions');
 const { getExamId } = require('../repositories/mysql/exams');
 const { findById } = require('../repositories/mysql/users');
+const {
+	getExamHistory,
+	addExamHistory,
+} = require('../repositories/mysql/examHistories');
+
 const { createCertification } = require('./certification-service');
 const { verifyEnrollStatusBeforeSubmitExam } = require('./enroll-service');
+
 const { convertToLocalDatetime } = require('../utils/moment-timezone');
-const { parse } = require('../utils/common');
+const { parse, stringify } = require('../utils/common');
+const { InvariantError } = require('../errors');
 
 const getExamQuestionsByCourseId = async (courseId) => {
 	const examId = await getExamId(courseId);
@@ -28,7 +35,18 @@ const getExamQuestionsByCourseId = async (courseId) => {
 	};
 };
 
-const submitExam = async (userId, courseId, score) => {
+const getExamHistoryByExamId = async (courseId, userId) => {
+	const examId = await getExamId(courseId);
+	const history = await getExamHistory(examId, userId);
+
+	if (!history) {
+		throw new InvariantError('No history for this exam');
+	}
+
+	return parse(history.dataValues.answerHistory);
+};
+
+const submitExam = async (userId, courseId, score, answers) => {
 	const enrollStatus = await getStatusEnrollment(userId, courseId);
 
 	verifyEnrollStatusBeforeSubmitExam(enrollStatus, score);
@@ -39,6 +57,8 @@ const submitExam = async (userId, courseId, score) => {
 	const courseName = await getCourseById(courseId).then(
 		(result) => result.dataValues.courseName,
 	);
+
+	const examId = await getExamId(courseId);
 
 	let imageCertificate = null;
 	let certificateReceiptDate = null;
@@ -62,11 +82,19 @@ const submitExam = async (userId, courseId, score) => {
 			oldCertification.id,
 		);
 
+		const histId = `examhist-${nanoid(16)}`;
+		await addExamHistory({
+			id: histId,
+			examId: examId,
+			userId,
+			answerHistory: stringify(answers),
+		});
+
 		return convertToLocalDatetime(updatedCertification);
 	} else {
-		const id = `cert-${nanoid(16)}`;
+		const certId = `cert-${nanoid(16)}`;
 		const newHistoryCertification = await addCertificate({
-			id,
+			id: certId,
 			courseId,
 			userId,
 			certificateReceiptDate,
@@ -74,8 +102,20 @@ const submitExam = async (userId, courseId, score) => {
 			imageCertificate,
 		});
 
+		const histId = `examhist-${nanoid(16)}`;
+		await addExamHistory({
+			id: histId,
+			examId: examId,
+			userId,
+			answerHistory: stringify(answers),
+		});
+
 		return convertToLocalDatetime(newHistoryCertification);
 	}
 };
 
-module.exports = { getExamQuestionsByCourseId, submitExam };
+module.exports = {
+	getExamQuestionsByCourseId,
+	getExamHistoryByExamId,
+	submitExam,
+};

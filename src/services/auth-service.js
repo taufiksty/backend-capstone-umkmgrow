@@ -84,7 +84,6 @@ const verifyRefreshToken = async (refreshToken) => {
 	}
 
 	const id = token.userId;
-	console.log(token);
 
 	const accessToken = TokenManager.generateAccessToken({ id });
 

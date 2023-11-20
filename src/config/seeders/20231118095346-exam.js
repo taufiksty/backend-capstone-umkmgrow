@@ -5,11 +5,7 @@ const EXAMS = require('../data/exams');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		try {
-			await queryInterface.bulkInsert('exams', EXAMS, {});
-		} catch (error) {
-			console.log('error when inserting');
-		}
+		await queryInterface.bulkInsert('exams', EXAMS, {});
 	},
 
 	async down(queryInterface, Sequelize) {

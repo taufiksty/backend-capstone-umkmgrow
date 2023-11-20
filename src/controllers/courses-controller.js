@@ -8,6 +8,7 @@ const {
 const {
 	getExamQuestionsByCourseId,
 	submitExam,
+	getExamHistoryByExamId,
 } = require('../services/exam-service');
 const { getCourseModulesByCourseId } = require('../services/module-service');
 
@@ -22,6 +23,30 @@ const getCourseByIdHandler = asyncWrapper(async (req, res) => {
 	});
 });
 
+const getCourseExamHistoryHandler = asyncWrapper(async (req, res) => {
+	const { id } = req.params;
+	const userId = req.auth.id;
+
+	const { examId, questions } = await getExamQuestionsByCourseId(id);
+	const histories = await getExamHistoryByExamId(id, userId);
+
+	res.json({
+		success: true,
+		data: {
+			course: {
+				id,
+				exams: {
+					id: examId,
+					questions: questions.map((q, i) => ({
+						...q,
+						yourAnswer: histories[i + 1],
+					})),
+				},
+			},
+		},
+	});
+});
+
 const getCourseExamsHandler = asyncWrapper(async (req, res) => {
 	const { id } = req.params;
 
@@ -29,7 +54,7 @@ const getCourseExamsHandler = asyncWrapper(async (req, res) => {
 
 	res.json({
 		success: true,
-		data: { course: { id, exams: { examId, questions } } },
+		data: { course: { id, exams: { id: examId, questions } } },
 	});
 });
 
@@ -75,9 +100,9 @@ const getCoursesHandler = asyncWrapper(async (req, res) => {
 const postCourseExamSubmitHandler = asyncWrapper(async (req, res) => {
 	const { id } = req.params;
 	const userId = req.auth.id;
-	const { score } = req.body;
+	const { score, answers } = req.body;
 
-	let certification = await submitExam(userId, id, score);
+	let certification = await submitExam(userId, id, score, answers);
 
 	res.status(201).json({
 		success: true,
@@ -87,6 +112,7 @@ const postCourseExamSubmitHandler = asyncWrapper(async (req, res) => {
 
 module.exports = {
 	getCourseByIdHandler,
+	getCourseExamHistoryHandler,
 	getCourseExamsHandler,
 	getCourseModulesHandler,
 	getCoursesHandler,
