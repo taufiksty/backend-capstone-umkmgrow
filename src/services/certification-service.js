@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+const fs = require('fs');
 const path = require('path');
 const PDFDocument = require('pdfkit');
 
@@ -53,3 +53,5 @@ const createCertification = (userName, courseName) => {
 
 	return `${config.app.baseUrl}/images/certification/${outputFile}`;
 };
+
+module.exports = { createCertification };
