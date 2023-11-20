@@ -2,8 +2,8 @@ const { nanoid } = require('nanoid');
 const {
 	addEnrollment,
 	getStatusEnrollment,
-	getEnrollmentById,
 	updateStatusAfterPurchase,
+	getEnrollment,
 } = require('../repositories/mysql/enrollments');
 const { convertToLocalDatetime } = require('../utils/moment-timezone');
 const { InvariantError } = require('../errors');
@@ -15,7 +15,7 @@ const enrollCourse = async (payload) => {
 		payload.userId,
 		payload.courseId,
 	);
-	await verifyEnrollCourse(enrollStatus);
+	verifyEnrollCourse(enrollStatus);
 
 	const id = `enroll-${nanoid(16)}`;
 
@@ -24,8 +24,14 @@ const enrollCourse = async (payload) => {
 	return convertToLocalDatetime(enroll);
 };
 
+const getEnroll = async ({ userId }) => {
+	const enroll = await getEnrollment({ userId });
+
+	return convertToLocalDatetime(enroll);
+};
+
 const purchaseEnrollment = async (id) => {
-	const enroll = await getEnrollmentById(id);
+	const enroll = await getEnrollment({ id });
 
 	if (!enroll) {
 		throw new InvariantError('You are not enroll this course.');
@@ -81,6 +87,7 @@ const verifyEnrollStatusBeforeSubmitExam = (enrollStatus, score) => {
 
 module.exports = {
 	enrollCourse,
+	getEnroll,
 	purchaseEnrollment,
 	verifyEnrollStatusBeforeSubmitExam,
 };

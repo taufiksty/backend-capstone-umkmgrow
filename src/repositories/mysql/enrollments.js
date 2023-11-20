@@ -6,9 +6,9 @@ const addEnrollment = async (payload) => {
 	return await Enrollment.create(payload);
 };
 
-const getEnrollmentById = async (id) => {
+const getEnrollment = async (where) => {
 	return await Enrollment.findOne({
-		where: { id },
+		where,
 	});
 };
 
@@ -25,7 +25,7 @@ const updateStatusAfterPurchase = async (id) => {
 
 module.exports = {
 	addEnrollment,
-	getEnrollmentById,
+	getEnrollment,
 	getStatusEnrollment,
 	updateStatusAfterPurchase,
 };

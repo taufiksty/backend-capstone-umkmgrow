@@ -1,8 +1,20 @@
 const { asyncWrapper } = require('../middlewares');
 const {
 	enrollCourse,
+	getEnroll,
 	purchaseEnrollment,
 } = require('../services/enroll-service');
+
+const getEnrollmentByUserId = asyncWrapper(async (req, res) => {
+	const userId = req.auth.id;
+
+	const enrollment = await getEnroll({ userId });
+
+	res.json({
+		success: true,
+		data: { enrollment },
+	});
+});
 
 const postEnrollmentHandler = asyncWrapper(async (req, res) => {
 	const userId = req.auth.id;
@@ -29,4 +41,8 @@ const postEnrollmentPurchaseHandler = asyncWrapper(async (req, res) => {
 	});
 });
 
-module.exports = { postEnrollmentHandler, postEnrollmentPurchaseHandler };
+module.exports = {
+	getEnrollmentByUserId,
+	postEnrollmentHandler,
+	postEnrollmentPurchaseHandler,
+};
