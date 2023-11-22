@@ -30,7 +30,12 @@ const postSigninAuthenticationHandler = asyncWrapper(async (req, res) => {
 	res.status(201).json({
 		success: true,
 		message: 'Sign-in success',
-		data: { accessToken, refreshToken, expiresIn: 3600, user },
+		data: {
+			accessToken,
+			refreshToken,
+			expiresIn: new Date(new Date().getTime() + 60 * 60 * 1000),
+			user,
+		},
 	});
 });
 
@@ -54,7 +59,11 @@ const putRefreshTokenHandler = asyncWrapper(async (req, res) => {
 	res.json({
 		success: true,
 		message: 'Token is refreshed',
-		data: { accessToken, refreshToken, expiresIn: 3600 },
+		data: {
+			accessToken,
+			refreshToken,
+			expiresIn: new Date(new Date().getTime() + 60 * 60 * 1000),
+		},
 	});
 });
 
