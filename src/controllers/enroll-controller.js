@@ -8,11 +8,11 @@ const {
 const getEnrollmentByUserId = asyncWrapper(async (req, res) => {
 	const userId = req.auth.id;
 
-	const enrollment = await getEnroll({ userId });
+	const enrollments = await getEnroll({ userId });
 
 	res.json({
 		success: true,
-		data: { enrollment },
+		data: { enrollments },
 	});
 });
 

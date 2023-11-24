@@ -11,6 +11,7 @@ const getContents = async (moduleId) => {
 			'contentSequence',
 			'updatedAt',
 		],
+		order: [['contentSequence', 'ASC']],
 	});
 };
 

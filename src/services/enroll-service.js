@@ -27,17 +27,21 @@ const enrollCourse = async (payload) => {
 const getEnroll = async ({ userId }) => {
 	const enroll = await getEnrollment({ userId });
 
-	return convertToLocalDatetime(enroll);
+	return enroll.map(convertToLocalDatetime);
 };
 
 const purchaseEnrollment = async (id) => {
-	const enroll = await getEnrollment({ id });
+	const enroll = await getEnrollment({ id }).then(
+		(result) => result[0].dataValues,
+	);
 
 	if (!enroll) {
 		throw new InvariantError('You are not enroll this course.');
 	}
 
-	const { price } = await getCourseById(enroll.courseId);
+	const { price } = await getCourseById(enroll.courseId).then(
+		(result) => result?.dataValues,
+	);
 
 	const paymentId = `payment-${nanoid(16)}`;
 	const payment = await createPayment({

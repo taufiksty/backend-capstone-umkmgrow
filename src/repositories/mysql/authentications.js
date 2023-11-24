@@ -6,7 +6,7 @@ const addToken = async (payload) => {
 
 const findToken = async (token) => {
 	return await Authentication.findOne({ where: { token } }).then(
-		(authentication) => authentication.dataValues,
+		(authentication) => authentication?.dataValues,
 	);
 };
 

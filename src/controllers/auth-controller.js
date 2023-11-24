@@ -5,6 +5,7 @@ const {
 	signOut,
 	verifyRefreshToken,
 } = require('../services/auth-service');
+const { getEnroll } = require('../services/enroll-service');
 
 const AuthenticationValidator = require('../validators/authentication');
 const UserValidator = require('../validators/user');
@@ -26,6 +27,7 @@ const postSigninAuthenticationHandler = asyncWrapper(async (req, res) => {
 
 	AuthenticationValidator.validateAuthenticationPayload(payload);
 	const { accessToken, refreshToken, user } = await signIn(payload);
+	const enrollments = await getEnroll({ userId: user.id });
 
 	res.status(201).json({
 		success: true,
@@ -34,7 +36,7 @@ const postSigninAuthenticationHandler = asyncWrapper(async (req, res) => {
 			accessToken,
 			refreshToken,
 			expiresIn: new Date(new Date().getTime() + 60 * 60 * 1000),
-			user,
+			user: { ...user, enrollments },
 		},
 	});
 });

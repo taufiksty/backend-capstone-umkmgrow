@@ -40,7 +40,7 @@ module.exports = {
 			estimate_finish: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
-				defaultValue: 864000,
+				defaultValue: 14400,
 			},
 			instructor_id: {
 				type: Sequelize.STRING,

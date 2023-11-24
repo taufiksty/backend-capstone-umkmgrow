@@ -7,8 +7,9 @@ const addEnrollment = async (payload) => {
 };
 
 const getEnrollment = async (where) => {
-	return await Enrollment.findOne({
+	return await Enrollment.findAll({
 		where,
+		attributes: ['id', 'courseId', 'enrollDate', 'status'],
 	});
 };
 
@@ -16,7 +17,7 @@ const getStatusEnrollment = async (userId, courseId) => {
 	return await Enrollment.findOne({
 		where: { [Op.and]: [{ userId, courseId }] },
 		attributes: ['id', 'status'],
-	}).then((result) => result.dataValues.status);
+	}).then((result) => result?.dataValues.status);
 };
 
 const updateStatusAfterPurchase = async (id) => {
