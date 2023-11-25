@@ -3,7 +3,14 @@ const ExamQuestion = require('../../models/examquestion');
 const getQuestionsByExamId = async (examId) => {
 	return await ExamQuestion.findAll({
 		where: { examId },
-		attributes: ['id', 'question', 'answers', 'correct_answer'],
+		order: [['questionSequence', 'ASC']],
+		attributes: [
+			'id',
+			'question',
+			'questionSequence',
+			'answers',
+			'correctAnswer',
+		],
 	});
 };
 

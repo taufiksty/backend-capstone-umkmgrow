@@ -21,6 +21,10 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
+			question_sequence: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+			},
 			answers: {
 				type: Sequelize.TEXT,
 				allowNull: false,

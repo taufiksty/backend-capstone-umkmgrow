@@ -7,9 +7,8 @@ const addExamHistory = async (payload) => {
 const getExamHistory = async (examId, userId) => {
 	return await ExamHistories.findOne({
 		where: { examId, userId },
-		// order: [['createdAt', 'DESC']],
-		// limit: 1,
-		// attributes: ['answerHistory'],
+		order: [['createdAt', 'DESC']],
+		limit: 1,
 	});
 };
 

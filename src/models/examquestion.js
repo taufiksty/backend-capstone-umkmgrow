@@ -30,6 +30,11 @@ ExamQuestion.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		questionSequence: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			field: 'question_sequence',
+		},
 		answers: {
 			type: DataTypes.TEXT,
 			allowNull: false,
