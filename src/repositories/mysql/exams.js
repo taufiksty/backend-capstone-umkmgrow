@@ -7,4 +7,11 @@ const getExamId = async (courseId) => {
 	}).then((result) => result.dataValues.id);
 };
 
-module.exports = { getExamId };
+const getCourseIdInExams = async (examId) => {
+	return await Exam.findOne({
+		where: { id: examId },
+		attributes: ['courseId'],
+	});
+};
+
+module.exports = { getExamId, getCourseIdInExams };

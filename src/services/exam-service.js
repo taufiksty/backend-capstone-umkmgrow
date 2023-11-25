@@ -8,11 +8,15 @@ const {
 const { getCourseById } = require('../repositories/mysql/courses');
 const { getStatusEnrollment } = require('../repositories/mysql/enrollments');
 const { getQuestionsByExamId } = require('../repositories/mysql/examQuestions');
-const { getExamId } = require('../repositories/mysql/exams');
+const {
+	getExamId,
+	getCourseIdInExams,
+} = require('../repositories/mysql/exams');
 const { findById } = require('../repositories/mysql/users');
 const {
 	getExamHistory,
 	addExamHistory,
+	getExamHistoryByUser,
 } = require('../repositories/mysql/examHistories');
 
 const { createCertification } = require('./certification-service');
@@ -44,6 +48,27 @@ const getExamHistoryByExamId = async (courseId, userId) => {
 	}
 
 	return parse(history.dataValues.answerHistory);
+};
+
+const getExamHistoriesByUserId = async (userId) => {
+	const histories = await getExamHistoryByUser(userId).then((result) =>
+		result.map(convertToLocalDatetime),
+	);
+
+	const courses = await Promise.all(
+		histories.map(async (h) => {
+			const { courseId } = await getCourseIdInExams(h.examId).then(
+				(result) => result.dataValues,
+			);
+			const { id, courseName } = await getCourseById(courseId).then(
+				(result) => result.dataValues,
+			);
+
+			return { courseId: id, courseName };
+		}),
+	);
+
+	return histories.map((history, i) => ({ ...history, ...courses[i] }));
 };
 
 const submitExam = async (userId, courseId, score, answers) => {
@@ -88,6 +113,7 @@ const submitExam = async (userId, courseId, score, answers) => {
 			examId: examId,
 			userId,
 			answerHistory: stringify(answers),
+			score,
 		});
 
 		return convertToLocalDatetime(updatedCertification);
@@ -108,6 +134,7 @@ const submitExam = async (userId, courseId, score, answers) => {
 			examId: examId,
 			userId,
 			answerHistory: stringify(answers),
+			score,
 		});
 
 		return convertToLocalDatetime(newHistoryCertification);
@@ -117,5 +144,6 @@ const submitExam = async (userId, courseId, score, answers) => {
 module.exports = {
 	getExamQuestionsByCourseId,
 	getExamHistoryByExamId,
+	getExamHistoriesByUserId,
 	submitExam,
 };

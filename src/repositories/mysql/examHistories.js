@@ -12,4 +12,11 @@ const getExamHistory = async (examId, userId) => {
 	});
 };
 
-module.exports = { addExamHistory, getExamHistory };
+const getExamHistoryByUser = async (userId) => {
+	return await ExamHistories.findAll({
+		where: { userId },
+		order: [['createdAt', 'DESC']],
+	});
+};
+
+module.exports = { addExamHistory, getExamHistory, getExamHistoryByUser };

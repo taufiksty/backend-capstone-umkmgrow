@@ -7,6 +7,7 @@ const {
 	usersRouter,
 	coursesRouter,
 	enrollRouter,
+	examsRouter,
 } = require('./routes');
 const { errorHandler, notFound } = require('./middlewares');
 const User = require('./models/user');
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/courses', coursesRouter);
 app.use('/api/enrollment', enrollRouter);
+app.use('/api/exams', examsRouter);
 app.use('/api/users', usersRouter);
 
 app.use(notFound);

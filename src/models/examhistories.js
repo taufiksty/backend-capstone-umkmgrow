@@ -31,6 +31,10 @@ ExamHistories.init(
 			allowNull: false,
 			field: 'answer_history',
 		},
+		score: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
 		createdAt: {
 			type: DataTypes.DATE,
 			defaultValue: DataTypes.NOW,

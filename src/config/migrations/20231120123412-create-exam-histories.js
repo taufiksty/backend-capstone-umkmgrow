@@ -30,6 +30,10 @@ module.exports = {
 				type: Sequelize.TEXT,
 				allowNull: false,
 			},
+			score: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+			},
 			created_at: {
 				type: Sequelize.DATE,
 				defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
