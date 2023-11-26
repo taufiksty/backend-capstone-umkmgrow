@@ -20,18 +20,19 @@ const updateProfile = async ({ id, userId, payload, image }) => {
 	let imagePath = null;
 	if (image) {
 		imagePath = await uploadImageProfile(id, image);
+		await updateUser(id, {
+			...payload,
+			businessFields: payload.businessFields,
+			skillsWant: payload.skillsWant,
+			imageProfile: imagePath,
+		});
 	} else {
-		await deleteImageProfile(id);
+		await updateUser(id, {
+			...payload,
+			businessFields: payload.businessFields,
+			skillsWant: payload.skillsWant,
+		});
 	}
-
-	await updateUser(id, {
-		...payload,
-		businessFields: payload.businessFields
-			? stringify(payload.businessFields)
-			: null,
-		skillsWant: payload.skillsWant ? stringify(payload.skillsWant) : null,
-		imageProfile: imagePath,
-	});
 
 	const profileUpdated = await findById(id).then((result) =>
 		convertToLocalDatetime(result),
@@ -39,10 +40,8 @@ const updateProfile = async ({ id, userId, payload, image }) => {
 
 	return {
 		...profileUpdated,
-		businessFields: profileUpdated.businessFields
-			? parse(payload.businessFields)
-			: null,
-		skillsWant: profileUpdated.skillsWant ? parse(payload.skillsWant) : null,
+		businessFields: profileUpdated.businessFields,
+		skillsWant: profileUpdated.skillsWant,
 	};
 };
 

@@ -1,4 +1,5 @@
 const { asyncWrapper } = require('../middlewares');
+const { getEnroll } = require('../services/enroll-service');
 const { updateProfile } = require('../services/user-service');
 
 const putUsersHandler = asyncWrapper(async (req, res) => {
@@ -8,10 +9,11 @@ const putUsersHandler = asyncWrapper(async (req, res) => {
 	const image = req.file;
 
 	const profileUpdated = await updateProfile({ id, userId, payload, image });
+	const enrollments = await getEnroll({ userId: id });
 
 	res.json({
 		success: true,
-		data: { user: profileUpdated },
+		data: { user: { ...profileUpdated, enrollments } },
 	});
 });
 
