@@ -1,5 +1,8 @@
 const { asyncWrapper } = require("../middlewares");
 const {
+  getCertificationById,
+} = require("../repositories/mysql/certifications");
+const {
   getCourseCertificationByCourseAndUser,
 } = require("../services/certification-service");
 const { getContentsByModuleId } = require("../services/content-service");
@@ -14,6 +17,7 @@ const {
   getExamHistoryByExamId,
 } = require("../services/exam-service");
 const { getCourseModulesByCourseId } = require("../services/module-service");
+const path = require("path");
 
 const getCourseByIdHandler = asyncWrapper(async (req, res) => {
   const { id } = req.params;
@@ -32,10 +36,38 @@ const getCourseCertificationHandler = asyncWrapper(async (req, res) => {
 
   const certification = await getCourseCertificationByCourseAndUser(userId, id);
 
+  const pdfLink = `/api/courses/getCertificate/${certification.id}`;
+
   res.json({
     success: true,
-    data: { certification },
+    data: { certification: { ...certification, pdfLink } },
   });
+});
+
+const getCertificationLink = asyncWrapper(async (req, res) => {
+  const { certificationId } = req.params;
+  const certificationLink = await getCertificationById(certificationId).then(
+    (result) => result.dataValues.imageCertificate
+  );
+  const certificationArray = certificationLink.split("/");
+  const certificationFileName =
+    certificationArray[certificationArray.length - 1];
+
+  const pdfPath = path.join(
+    __dirname,
+    "..",
+    "..",
+    "public",
+    "images",
+    "certification",
+    certificationFileName
+  );
+
+  console.log(pdfPath);
+
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", "inline; filename=certification.pdf");
+  res.sendFile(pdfPath);
 });
 
 const getCourseExamHistoryHandler = asyncWrapper(async (req, res) => {
@@ -128,6 +160,7 @@ const postCourseExamSubmitHandler = asyncWrapper(async (req, res) => {
 module.exports = {
   getCourseByIdHandler,
   getCourseCertificationHandler,
+  getCertificationLink,
   getCourseExamHistoryHandler,
   getCourseExamsHandler,
   getCourseModulesHandler,

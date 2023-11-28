@@ -7,6 +7,7 @@ const {
   postCourseExamSubmitHandler,
   getCourseExamHistoryHandler,
   getCourseCertificationHandler,
+  getCertificationLink,
 } = require("../controllers/courses-controller");
 const { auth } = require("../middlewares");
 
@@ -19,5 +20,6 @@ router.route("/:id/exams").get(auth, getCourseExamsHandler);
 router.route("/:id/certification").get(auth, getCourseCertificationHandler);
 router.route("/:id/exams/submit").post(auth, postCourseExamSubmitHandler);
 router.route("/:id/exams/history").get(auth, getCourseExamHistoryHandler);
+router.route("/getCertificate/:certificationId").get(getCertificationLink);
 
 module.exports = router;
