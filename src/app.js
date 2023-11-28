@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const path = require('path');
 
 const {
@@ -12,10 +13,19 @@ const {
 const { errorHandler, notFound } = require('./middlewares');
 const User = require('./models/user');
 const Enrollment = require('./models/enrollment');
+const config = require('./config');
 
 const app = express();
 
 app.use(morgan('dev'));
+
+app.use(
+	cors({
+		origin: config.app.backendBaseUrl,
+		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+		credentials: true,
+	}),
+);
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));

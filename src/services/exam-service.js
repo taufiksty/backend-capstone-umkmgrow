@@ -6,7 +6,10 @@ const {
 	getCertificationById,
 } = require('../repositories/mysql/certifications');
 const { getCourseById } = require('../repositories/mysql/courses');
-const { getStatusEnrollment } = require('../repositories/mysql/enrollments');
+const {
+	getStatusEnrollment,
+	updateStatusAfterExamCompleted,
+} = require('../repositories/mysql/enrollments');
 const { getQuestionsByExamId } = require('../repositories/mysql/examQuestions');
 const {
 	getExamId,
@@ -72,9 +75,9 @@ const getExamHistoriesByUserId = async (userId) => {
 };
 
 const submitExam = async (userId, courseId, score, answers) => {
-	const enrollStatus = await getStatusEnrollment(userId, courseId);
+	const { id: enrollId, status } = await getStatusEnrollment(userId, courseId);
 
-	verifyEnrollStatusBeforeSubmitExam(enrollStatus, score);
+	verifyEnrollStatusBeforeSubmitExam(status, score);
 
 	const userName = await findById(userId).then(
 		(result) => result.dataValues.fullname,
@@ -91,6 +94,7 @@ const submitExam = async (userId, courseId, score, answers) => {
 	if (score === 100) {
 		imageCertificate = createCertification(userName, courseName);
 		certificateReceiptDate = Date.now();
+		await updateStatusAfterExamCompleted(enrollId);
 	}
 
 	const oldCertification = await getCertificationByUserIdAndCourseId(

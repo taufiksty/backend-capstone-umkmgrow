@@ -17,11 +17,15 @@ const getStatusEnrollment = async (userId, courseId) => {
 	return await Enrollment.findOne({
 		where: { [Op.and]: [{ userId, courseId }] },
 		attributes: ['id', 'status'],
-	}).then((result) => result?.dataValues.status);
+	}).then((result) => result?.dataValues);
 };
 
 const updateStatusAfterPurchase = async (id) => {
 	return await Enrollment.update({ status: 'onlearning' }, { where: { id } });
+};
+
+const updateStatusAfterExamCompleted = async (id) => {
+	return await Enrollment.update({ status: 'completed' }, { where: { id } });
 };
 
 module.exports = {
@@ -29,4 +33,5 @@ module.exports = {
 	getEnrollment,
 	getStatusEnrollment,
 	updateStatusAfterPurchase,
+	updateStatusAfterExamCompleted,
 };

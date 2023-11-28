@@ -9,6 +9,7 @@ module.exports = {
 		hostDev: process.env.HOST_DEV,
 		hostProd: process.env.HOST_PROD,
 		baseUrl: process.env.BASE_URL,
+		backendBaseUrl: process.env.BACKEND_BASE_URL,
 	},
 	jwt: {
 		accessToken: process.env.ACCESS_TOKEN,
