@@ -24,10 +24,5 @@ module.exports = {
 		database: process.env.DB_PROD_DATABASE,
 		host: process.env.DB_PROD_HOST,
 		dialect: process.env.DB_PROD_DIALECT,
-		dialectOptions: {
-			ssl: {
-				rejectUnauthorized: true,
-			},
-		},
 	},
 };
