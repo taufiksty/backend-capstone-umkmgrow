@@ -13,6 +13,7 @@ if (ENV === 'production') {
 		database: configDB.production.database,
 		host: configDB.production.host,
 		dialect: 'mysql',
+		dialectModule: require('mysql2'),
 	});
 } else {
 	sequelize = new Sequelize({
