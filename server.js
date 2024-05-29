@@ -1,6 +1,6 @@
-const app = require('./app');
-const config = require('./config');
-const sequelize = require('./config/database');
+const app = require('./src/app');
+const config = require('./src/config');
+const sequelize = require('./src/config/database');
 
 const HOST =
 	config.app.env === 'production' ? config.app.hostProd : config.app.hostDev;

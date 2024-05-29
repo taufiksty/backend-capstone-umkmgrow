@@ -1,9 +1,25 @@
 {
+	"name": "backend-capstone-umkmgrow",
 	"version": 2,
-	"rewrites": [
+	"public": true,
+	"builds": [
 		{
-			"source": "/(.*)",
-			"destination": "/src"
+			"src": "server.js",
+			"use": "@vercel/node"
+		},
+		{
+			"src": "public/**",
+			"use": "@vercel/static"
+		}
+	],
+	"routes": [
+		{
+			"src": "/((?!.*\\.\\w+$).*)",
+			"dest": "/server.js"
+		},
+		{
+			"src": "/(.+\\.[a-z]+)$",
+			"dest": "/public/$1"
 		}
 	]
 }
