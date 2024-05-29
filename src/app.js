@@ -11,8 +11,6 @@ const {
 	examsRouter,
 } = require('./routes');
 const { errorHandler, notFound } = require('./middlewares');
-const User = require('./models/user');
-const Enrollment = require('./models/enrollment');
 const config = require('./config');
 
 const app = express();
