@@ -12,7 +12,7 @@ if (ENV === 'production') {
 		password: configDB.production.password,
 		database: configDB.production.database,
 		host: configDB.production.host,
-		dialect: configDB.production.dialect,
+		dialect: 'mysql',
 	});
 } else {
 	sequelize = new Sequelize({
