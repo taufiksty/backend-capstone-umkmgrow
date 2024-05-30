@@ -12,6 +12,7 @@ if (ENV === 'production') {
 		password: configDB.production.password,
 		database: configDB.production.database,
 		host: configDB.production.host,
+		port: configDB.production.port,
 		dialect: 'mysql',
 		dialectModule: require('mysql2'),
 	});
