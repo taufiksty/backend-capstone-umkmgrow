@@ -23,6 +23,7 @@ module.exports = {
 		password: process.env.DB_PROD_PASSWORD,
 		database: process.env.DB_PROD_DATABASE,
 		host: process.env.DB_PROD_HOST,
+		port: process.env.DB_PROD_PORT,
 		dialect: process.env.DB_PROD_DIALECT,
 	},
 };
