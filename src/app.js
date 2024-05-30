@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 
 app.use(
 	cors({
-		origin: config.app.frontendBaseUrl,
+		origin: [config.app.frontendBaseUrl],
 		methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 		credentials: true,
 	}),
